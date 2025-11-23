@@ -1,4 +1,4 @@
- PocketVectorDB  
+ # PocketVectorDB  
 
 A lightweight, fast, offline-ready vector database for Python and mobile/edge environments
 
@@ -13,7 +13,7 @@ PocketVectorDB is a minimal, dependency-light vector database designed for:
 Built for simplicity and speed, PocketVectorDB stores embeddings in a compact NumPy matrix, supports metadata filtering, batch inserts, persistent storage, and cosine similarity search — all in under 10KB of Python code.
 
 ======================================================================
-  🚀 Features
+#  🚀 Features
 ======================================================================
 
 - Ultra-lightweight: no server, no heavy frameworks  
@@ -27,7 +27,7 @@ Built for simplicity and speed, PocketVectorDB stores embeddings in a compact Nu
 - Perfect for small AI agents and local LLM memory
 
 ======================================================================
- 📦 Installation
+# 📦 Installation
 ======================================================================
 
 ### Python  
@@ -42,7 +42,7 @@ pip install pocketvectordb-1.0.0-py3-none-any.whl
 ```
 
 ======================================================================
- 🧠 Quick Start
+# 🧠 Quick Start
 ======================================================================
 
 ```python
@@ -61,7 +61,7 @@ print(results["documents"])
 ```
 
 ======================================================================
- 🔍 Similarity Search
+# 🔍 Similarity Search
 ======================================================================
 
 ```python
@@ -75,7 +75,7 @@ Returns:
 - `metadatas`
 
 ======================================================================
- 🗂️ Metadata Filtering
+# 🗂️ Metadata Filtering
 ======================================================================
 
 ```python
@@ -87,7 +87,7 @@ results = db.query(
 ```
 
 ======================================================================
-  ✏️ Updating Documents
+#  ✏️ Updating Documents
 ======================================================================
 
 ```python
@@ -99,7 +99,7 @@ db.update(
 ```
 
 ======================================================================
-  🗑️ Delete Matching Documents
+#  🗑️ Delete Matching Documents
 ======================================================================
 
 ```python
@@ -107,7 +107,7 @@ deleted_count = db.delete(where={"category": "tech"})
 ```
 
 ======================================================================
-  💾 Persistence
+#  💾 Persistence
 ======================================================================
 
 Every write updates:
@@ -123,7 +123,7 @@ print(db.count())
 ```
 
 ======================================================================
-   📊 Performance
+#   📊 Performance
 ======================================================================
 
 Benchmarks on Android (Termux):
@@ -138,7 +138,7 @@ PocketVectorDB is optimized for fast local lookups without GPU or FAISS.
 
 
 ======================================================================
-  🛠️ Why PocketVectorDB?
+#  🛠️ Why PocketVectorDB?
 ======================================================================
 
 Most vector databases are:  
@@ -161,7 +161,7 @@ Perfect for:
 
 
 ======================================================================
-   ❤️ Author
+#   ❤️ Author
 ======================================================================
   ThatFkrDurk561 
  
