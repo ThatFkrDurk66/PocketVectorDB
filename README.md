@@ -1,4 +1,8 @@
- # PocketVectorDB  
+<p align="center">
+  <img src="logo.png" width="300" alt="PocketVectorDB Logo"/>
+</p>
+
+   # PocketVectorDB  
 
 A lightweight, fast, offline-ready vector database for Python and mobile/edge environments
 
