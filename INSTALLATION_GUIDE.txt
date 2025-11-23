@@ -1,0 +1,98 @@
+═══════════════════════════════════════════════════════════════
+  PERSONAL VECTORDB - TERMUX INSTALLATION GUIDE
+═══════════════════════════════════════════════════════════════
+
+Three Easy Ways to Install:
+
+┌─────────────────────────────────────────────────────────────┐
+│ METHOD 1: ONE-COMMAND INSTALL (Recommended)                 │
+└─────────────────────────────────────────────────────────────┘
+
+  bash install-termux.sh
+
+  This will:
+  • Install all dependencies
+  • Configure Python environment
+  • Install the vector database
+  • Verify the installation
+
+┌─────────────────────────────────────────────────────────────┐
+│ METHOD 2: INSTALL FROM PRE-BUILT WHEEL (Fastest)           │
+└─────────────────────────────────────────────────────────────┘
+
+  1. Install numpy first:
+     pkg install python
+     pip install numpy
+
+  2. Install the package:
+     pip install dist/pocketvectordb-1.0.0-py3-none-any.whl
+
+
+VERIFY INSTALLATION:
+--------------------
+
+  python -c "from pocketvectordb import VectorDB; print('Success!')"
+
+RUN EXAMPLE:
+------------
+
+  python example_usage.py
+
+RUN TESTS:
+----------
+
+  python test_pocketvectordb.py
+
+═══════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+----------------
+
+Problem: "No module named numpy"
+Solution: pkg install python-numpy
+          or: pip install numpy --no-build-isolation
+
+Problem: "Permission denied"
+Solution: chmod +x *.sh
+
+Problem: "Command not found"
+Solution: pkg update && pkg install python
+
+═══════════════════════════════════════════════════════════════
+
+USAGE EXAMPLE:
+--------------
+
+  from pocketvectordb import VectorDB
+  import numpy as np
+  
+  # Create database
+  db = VectorDB("~/my_vectors", dimension=128)
+  
+  # Add vectors
+  vec = np.random.rand(128)
+  db.add(vec, metadata={"source": "test"}, text="Hello")
+  
+  # Search
+  results = db.query(vec, n_results=5)
+  print(results)
+  
+  # Save
+  db.save()
+
+═══════════════════════════════════════════════════════════════
+
+DOCUMENTATION:
+--------------
+
+  • PACKAGE_README.md  - Quick start guide
+  • TERMUX_INSTALL.md  - Detailed installation
+  • README.md          - Full documentation
+  • example_usage.py   - Code examples
+
+═══════════════════════════════════════════════════════════════
+
+Need help? Check the documentation files above!
+
+Happy coding! 🚀
+

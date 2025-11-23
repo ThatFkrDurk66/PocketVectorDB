@@ -1,0 +1,8 @@
+include README.md
+include requirements.txt
+include LICENSE
+include pocketvectordb.py
+include example_usage.py
+include test_pocketvectordb.py
+include install-from-wheel.sh
+include install-termux.sh
