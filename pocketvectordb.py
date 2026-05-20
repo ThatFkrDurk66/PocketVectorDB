@@ -138,7 +138,7 @@ class VectorDB:
         
         # Rebuild matrix
         self._rebuild_matrix()
-        
+        self.save()
         return doc_id
     
     def add_batch(self, 
