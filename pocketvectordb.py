@@ -8,6 +8,7 @@ import os
 from typing import List, Dict, Any, Optional, Tuple, Union
 from dataclasses import dataclass, asdict
 import hashlib
+import uuid
 from pathlib import Path
 
 
@@ -66,7 +67,7 @@ class VectorDB:
     
     def _generate_id(self, text: str) -> str:
         """Generate unique ID from text"""
-        return hashlib.md5(text.encode()).hexdigest()
+        return str(uuid.uuid4())
     
     def _normalize_vector(self, vector: np.ndarray) -> np.ndarray:
         """Normalize vector for cosine similarity"""
@@ -169,7 +170,8 @@ class VectorDB:
         for emb, meta, text, doc_id in zip(embeddings, metadatas, texts, doc_ids):
             added_id = self.add(emb, meta, text, doc_id)
             added_ids.append(added_id)
-        
+            
+        self.save()
         return added_ids
     
     def query(self, 
@@ -200,6 +202,13 @@ class VectorDB:
         # Convert to numpy array and normalize
         if isinstance(query_embedding, list):
             query_embedding = np.array(query_embedding, dtype=np.float32)
+        
+        if len(query_embedding) != self.dimension:
+            raise ValueError(
+                f"Query dimension {len(query_embedding)} "
+                f"doesn't match database dimension {self.dimension}"
+            )    
+        
         query_embedding = self._normalize_vector(query_embedding)
         
         # Filter by metadata if specified
@@ -230,7 +239,14 @@ class VectorDB:
         
         # Get top k results
         n_results = min(n_results, len(similarities))
-        top_indices = np.argsort(similarities)[::-1][:n_results]
+        top_indices = np.argpartition(
+            similarities,
+            -n_results
+        )[-n_results:]
+
+        top_indices = top_indices[
+            np.argsort(similarities[top_indices])[::-1]
+        ]
         
         # Prepare results
         result_ids = [filtered_doc_ids[i] for i in top_indices]
@@ -300,6 +316,7 @@ class VectorDB:
             del self.documents[doc_id]
         
         self._rebuild_matrix()
+        self.save()           
         return len(to_delete)
     
     def update(self, doc_id: str, 
@@ -331,7 +348,9 @@ class VectorDB:
         
         if text is not None:
             doc.text = text
-    
+            
+        self.save()
+                   
     def count(self) -> int:
         """Get total number of documents"""
         return len(self.documents)
@@ -358,8 +377,12 @@ class VectorDB:
             }
         }
         
-        with open(self.metadata_file, 'w') as f:
+        temp_file = str(self.metadata_file) + ".tmp"
+
+        with open(temp_file, 'w') as f:
             json.dump(metadata_data, f)
+
+        os.replace(temp_file, self.metadata_file)
     
     def load(self):
         """Load database from disk"""
@@ -397,9 +420,16 @@ class VectorDB:
     
     def clear(self):
         """Clear all documents from database"""
+    
         self.documents = {}
         self.embeddings_matrix = None
         self.doc_ids = []
+
+        if self.embeddings_file.exists():
+           os.remove(self.embeddings_file)
+
+        if self.metadata_file.exists():
+           os.remove(self.metadata_file)
     
     def __len__(self):
         return len(self.documents)
