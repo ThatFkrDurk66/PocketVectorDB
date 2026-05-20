@@ -56,7 +56,12 @@ import numpy as np
 db = VectorDB("./my_vectordb", dimension=384)
 
 embedding = np.random.randn(384).astype(np.float32)
-doc_id = db.add(embedding, "Hello world!", metadata={"tag": "greeting"})
+
+doc_id = db.add(
+    embedding,
+    text="Hello world!",
+    metadata={"tag": "greeting"}
+)
 
 query = np.random.randn(384).astype(np.float32)
 results = db.query(query, n_results=3)
